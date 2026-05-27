@@ -183,7 +183,7 @@ namespace CryptoSandbox.Courses
                     Thread.Sleep(1000);
 
                     // --- STEP 10 ---
-                    long obfuscator = phoneSeed * 12345678; // Transformăm un secret mic în unul mare
+                    long obfuscator = phoneSeed * 12345678; // small secret -> big secret
                     long encryptedToken = token ^ obfuscator;
                     UpdateUI(
                         $"[blue]Criptez token-ul[/] cu [underline]Shared Secret[/] [cyan]({phoneSeed})[/]: [magenta italic]{token} [blue]XOR[/] {phoneSeed}[/]",
