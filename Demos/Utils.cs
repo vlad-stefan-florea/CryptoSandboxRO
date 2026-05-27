@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using Spectre.Console;
 
-namespace CryptoSandbox.Courses
+namespace CryptoSandbox.Demos
 {
     public class Utils
     {

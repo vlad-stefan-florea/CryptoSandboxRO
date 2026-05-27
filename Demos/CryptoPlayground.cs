@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using CryptoSandbox.Engine;
 using Spectre.Console;
-using static CryptoSandbox.Courses.Utils;
+using static CryptoSandbox.Demos.Utils;
 using static CryptoSandbox.Engine.CryptoEngine;
 
-namespace CryptoSandbox.Courses
+namespace CryptoSandbox.Demos
 {
     public class CryptoPlayground
     {

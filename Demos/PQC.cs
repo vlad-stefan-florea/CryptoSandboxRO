@@ -1,7 +1,7 @@
 ﻿using Spectre.Console;
-using static CryptoSandbox.Courses.Utils;
+using static CryptoSandbox.Demos.Utils;
 
-namespace CryptoSandbox.Courses
+namespace CryptoSandbox.Demos
 {
     public class PQC
     {

@@ -11,7 +11,7 @@
     <PackageReference Include="Spectre.Console" Version="0.55.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CoursesAssembly\Courses.csproj" />
+    <ProjectReference Include="..\Demos\Demos.csproj" />
     <ProjectReference Include="..\MathLib\MathLib.csproj" />
   </ItemGroup>
   <PropertyGroup Condition="'$(PublishProtocol)' != ''">

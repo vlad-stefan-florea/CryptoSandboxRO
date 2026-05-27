@@ -1,8 +1,8 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text;
-using CryptoSandbox.Courses;
+using CryptoSandbox.Demos;
 using Spectre.Console;
-using static CryptoSandbox.Courses.Utils;
+using static CryptoSandbox.Demos.Utils;
 
 namespace CryptoSandbox
 {

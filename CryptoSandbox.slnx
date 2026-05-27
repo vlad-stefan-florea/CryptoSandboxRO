@@ -1,10 +1,7 @@
 <Solution>
-  <Project Path="CoursesAssembly/Courses.csproj">
-    <BuildDependency Project="MathLib/MathLib.csproj" />
-  </Project>
   <Project Path="CryptoSandbox/CryptoSandbox.csproj">
-    <BuildDependency Project="CoursesAssembly/Courses.csproj" />
     <BuildDependency Project="MathLib/MathLib.csproj" />
   </Project>
+  <Project Path="Demos/Demos.csproj" />
   <Project Path="MathLib/MathLib.csproj" />
 </Solution>
