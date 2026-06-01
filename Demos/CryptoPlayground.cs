@@ -169,14 +169,22 @@ namespace CryptoSandbox.Demos
         private static void SecondTest()
         {
             AnsiConsole.Clear();
-            int minChars = 10,
-                maxChars = 500;
             Markup contents = new Markup(
-                "1) Aplicația va alege un mesaj la întâmplare."
+                "În acest experiment ne vom concentra doar pe [magenta]mecanismul de semnare[/]."
+                    + "\n1) Aplicația va alege un mesaj la întâmplare."
                     + "\n2) Aplicația va „semna” mesajul folosind o cheie privată."
-                    + "\n3) Vei primi mesajul codificat și cheia publică."
-                    + "\n4) Vei vedea că dacă modifici chiar și o singură literă din mesajul codificat, semnătura va fi invalidă."
-                    + "\n[cyan bold]Așa poți afla dacă un mesaj a fost modificat de altă persoană înainte să ajungă la tine.[/]"
+                    + "\n3) Vei primi mesajul semnat și cheia publică."
+                    + "\n4) Vei vedea că dacă modifici chiar și o singură literă a mesajului original, semnătura va fi invalidă."
+                    + "\n[cyan bold]Așa poți afla dacă un mesaj a fost modificat de o altă persoană înainte să ajungă la tine.[/]"
+                    + "\n*) Diferența principală dintre [magenta italic]semnare[/] și [magenta italic]criptare[/] este următoarea:"
+                    + "\n   [blue bold]•[/] Semnarea garantează autenticitatea unei informații:"
+                    + "\n      [blue bold]*[/] cheia publică -> verificarea semnăturii"
+                    + "\n      [blue bold]*[/] cheia privată -> semnarea mesajului"
+                    + "\n      [blue bold]*[/] [underline]Exemple:[/] actualizări aplicații, certificate SSL (site-uri web), semnare aplicații/documente"
+                    + "\n   [blue bold]•[/] Criptarea garantează confidențialitate:"
+                    + "\n      [blue bold]*[/] cheia publică -> criptarea mesajului"
+                    + "\n      [blue bold]*[/] cheia privată -> decriptarea/citirea mesajului"
+                    + "\n      [blue bold]*[/] [underline]Exemple:[/] WhatsApp, plăți online, site-uri web"
             );
             var panel = new Panel(contents)
                 .Header("TESTUL 2 - Criptarea Asimetrică & Semnătura (RSA)")
@@ -191,10 +199,10 @@ namespace CryptoSandbox.Demos
             Random rand = new Random();
             string[] Messages =
             {
-                "Certific faptul că acest mesaj vine de la aplicație și nu a fost modificat.",
-                "Acest mesaj este unul autentic.",
-                "Nimeni nu poate modifica acest mesaj fără cheia privată.",
-                "Acesta este un mesaj care nu poate fi falsificat.",
+                "Acest mesaj este semnat digital de aplicație.",
+                "Integritatea poate fi verificată folosind cheia publică.",
+                "Orice modificare a conținutului invalidează semnătura.",
+                "Autenticitatea depinde de verificarea criptografică asimetrică.",
             };
             msg = Messages[rand.NextInt64(0, Messages.Length)];
             AnsiConsole.MarkupLine("[green bold]✓ Mesajul a fost ales![/]");
@@ -214,10 +222,10 @@ namespace CryptoSandbox.Demos
             );
             AnsiConsole.MarkupLine($"\n[yellow]Mesajul semnat:[/]\n[magenta]{sig}[/]");
             AnsiConsole.MarkupLine(
-                $"[yellow]Criptat în:[/] [green]{sw.Elapsed.TotalMilliseconds:F4} ms[/]"
+                $"[yellow]Semnat în:[/] [green]{sw.Elapsed.TotalMilliseconds:F4} ms[/]"
             );
             AnsiConsole.MarkupLine(
-                "\n> [cyan bold]TASK-ul tău:[/] Încearcă să decriptezi mesajul introducând cheia publică."
+                "\n> [cyan bold]TASK-ul tău:[/] Încearcă să verifici semnătura folosind cheia publică."
             );
             Pause();
 
@@ -235,19 +243,18 @@ namespace CryptoSandbox.Demos
                 var isValid = VerifySignature(msg, sig, input);
                 if (isValid)
                 {
-                    AnsiConsole.MarkupLine("[green bold]✓ Decodificat cu succes![/]");
                     AnsiConsole.MarkupLine(
-                        $"\n[yellow]Mesajul decodificat:[/]\n\t[magenta]{msg}[/]"
+                        "[green bold]✓ Semnătura este validă! Mesajul este autentic.[/]"
                     );
+                    AnsiConsole.MarkupLine($"\n[yellow]Mesaj:[/]\n\t[magenta]{msg}[/]");
                     break;
                 }
                 else
                 {
-                    AnsiConsole.MarkupLine("[red bold]✓ Decodificare eșuată![/]");
-                    if (input != publicKey)
-                        AnsiConsole.MarkupLine(
-                            $"\t[red]Cheia introdusă nu se potrivește cu cheia publică. Copiaz-o de mai sus și insereaz-o aici.[/]"
-                        );
+                    AnsiConsole.MarkupLine("[red bold]✗ Semnătură invalidă![/]");
+                    AnsiConsole.MarkupLine(
+                        $"\t[red]Cheia publică trebuie să fie exact cea afișată mai sus.[/]"
+                    );
                 }
             }
             Pause();
@@ -255,24 +262,24 @@ namespace CryptoSandbox.Demos
             AnsiConsole.MarkupLine(
                 "> [blue]Acum încearcă să modifici mesajul: fie doar o literă, un cuvânt, sau mai mult.[/]"
             );
-            CopyToClipboard(sig);
+            CopyToClipboard(msg);
             AnsiConsole.MarkupLine(
-                "[green bold]✓ Semnătură copiată automat în clipboard! Apasă[/] [yellow]CTRL+V[/] [green bold]pentru a insera.[/]"
+                "[green bold]✓ Mesaj original copiat automat în clipboard! Apasă[/] [yellow]CTRL+V[/] [green bold]pentru a insera.[/]"
             );
             while (true)
             {
-                input = AnsiConsole.Ask<string>($"> [bold white]Semnătura modificată:[/]");
+                input = AnsiConsole.Ask<string>($"> [bold white]Mesajul modificat:[/]");
                 if (string.IsNullOrEmpty(input))
-                    AnsiConsole.MarkupLine("[red]Semnătura nu poate fi goală.[/]");
-                else if (input == sig)
-                    AnsiConsole.MarkupLine("[red]Te rog să modifici semătura.[/]");
+                    AnsiConsole.MarkupLine("[red]Mesajul nu poate fi gol.[/]");
+                else if (input == msg)
+                    AnsiConsole.MarkupLine("[red]Mesajul nu a fost modificat.[/]");
                 else
                     break;
             }
-            var valid = VerifySignature(msg, sig, input);
+            var valid = VerifySignature(input, sig, publicKey);
             if (!valid)
                 AnsiConsole.MarkupLine(
-                    "[green bold]✓ Semnătura a fost depistată cu succes ca fiind [yellow]modificată[/]![/]"
+                    "[green bold]✓ Mesajul a fost depistat cu succes ca fiind [yellow]modificat[/]![/]"
                 );
             else
                 AnsiConsole.MarkupLine("[red bold]Ups! Se pare că a intervenit o eroare![/]");

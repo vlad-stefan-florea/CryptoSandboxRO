@@ -14,21 +14,4 @@
     <ProjectReference Include="..\Demos\Demos.csproj" />
     <ProjectReference Include="..\MathLib\MathLib.csproj" />
   </ItemGroup>
-  <PropertyGroup Condition="'$(PublishProtocol)' != ''">
-    <TargetName>$(AssemblyName)_last</TargetName>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-    <StripSymbols>true</StripSymbols>
-    <IlcGenerateCompleteTypeMetadata>false</IlcGenerateCompleteTypeMetadata>
-    <IlcGenerateStackTraceData>false</IlcGenerateStackTraceData>
-    <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
-  </PropertyGroup>
-  <Target Name="PublishRename" AfterTargets="Publish">
-    <PropertyGroup>
-      <OldExe>$(PublishDir)$(AssemblyName)_last.exe</OldExe>
-      <NewExe>$(PublishDir)$(AssemblyName)_$(RuntimeIdentifier).exe</NewExe>
-    </PropertyGroup>
-    <Message Text="Copying final exe: $(OldExe) -&gt; $(NewExe)" Importance="high" />
-    <Copy SourceFiles="$(OldExe)" DestinationFiles="$(NewExe)" OverwriteReadOnlyFiles="true" />
-  </Target>
 </Project>

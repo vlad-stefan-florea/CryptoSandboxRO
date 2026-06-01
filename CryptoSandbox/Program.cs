@@ -1,6 +1,8 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text;
 using CryptoSandbox.Demos;
+using Microsoft.Win32;
 using Spectre.Console;
 using static CryptoSandbox.Demos.Utils;
 
@@ -23,13 +25,15 @@ namespace CryptoSandbox
             };
             AnsiConsole.Write(figlet);
 
-            string githubLink = "https://github.com/vlad-stefan-florea";
-            AnsiConsole.MarkupLine($"Creat de: [link={githubLink}]@vlad-stefan-florea[/]");
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                AnsiConsole.MarkupLine(
-                    "[grey]Pentru utilizatorii WINDOWS: pentru o experiență optimă, alege din setări „Windows Terminal” ca terminal implicit.[/]"
-                );
+            string githubLink = "https://github.com/vlad-stefan-florea",
+                WtMsStoreLink = @"https://aka.ms/terminal";
+            ;
+            AnsiConsole.MarkupLine(
+                $"[grey][underline]Creat de:[/] @vlad-stefan-florea (GitHub: {githubLink})[/]"
+            );
+            AnsiConsole.MarkupLine(
+                $"[grey][underline]NOTĂ:[/] Pentru o experiență completă, folosește Windows Terminal ({WtMsStoreLink}).[/]"
+            );
             AnsiConsole.Write(rule);
         }
 
@@ -103,7 +107,12 @@ namespace CryptoSandbox
                 switch (choice)
                 {
                     case "Afișează mesajul de eroare":
-                        AnsiConsole.WriteException(ex);
+                        AnsiConsole.MarkupLineInterpolated(
+                            $"[red underline]Mesaj:[/] {ex.Message}"
+                        );
+                        AnsiConsole.MarkupLine($"[red underline]Sursa:[/] {ex.Source}");
+                        AnsiConsole.MarkupLine($"[red underline]Detalii:[/]");
+                        Console.WriteLine(ex.StackTrace);
                         Pause();
                         break;
                     case "Închide aplicația":
