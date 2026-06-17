@@ -340,17 +340,17 @@ namespace CryptoSandbox.Demos
                     else
                         break;
                 }
-                var tabel = new Table().Border(TableBorder.Rounded).Expand().ShowRowSeparators();
-                tabel.AddColumn("[yellow]Algoritm HASH[/]");
-                tabel.AddColumn("[cyan]Amprentă (Hash)[/]");
+                var table = new Table().Border(TableBorder.Rounded).Expand().ShowRowSeparators();
+                table.AddColumn("[yellow]Algoritm HASH[/]");
+                table.AddColumn("[cyan]Amprentă (Hash)[/]");
 
                 // loop through the enum
                 foreach (HashType type in Enum.GetValues<HashType>())
                 {
-                    string hashResult = CryptoEngine.GetHash(input, type);
-                    tabel.AddRow(type.ToString(), $"[green]{hashResult}[/]");
+                    string hashResult = CryptoEngine.GetTextHash(input, type);
+                    table.AddRow(type.ToString(), $"[green]{hashResult}[/]");
                 }
-                AnsiConsole.Write(tabel);
+                AnsiConsole.Write(table);
             }
             Pause();
             // read file

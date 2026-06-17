@@ -132,7 +132,7 @@ namespace CryptoSandbox.Engine
             SHA512,
         }
 
-        public static string GetHash(string input, HashType type)
+        public static string GetTextHash(string input, HashType type)
         {
             byte[] inputBytes = Encoding.UTF8.GetBytes(input);
             byte[] hashBytes;
